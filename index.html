@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lunar Outpost One's 72-hour Moon survival mission portfolio.">
+  <title>Mission: Moon Survival</title>
+  <style>
+    :root {
+      --bg: #09101c;
+      --panel: #121d2e;
+      --panel2: #0d1726;
+      --line: #2b3c55;
+      --text: #edf4ff;
+      --muted: #adbad0;
+      --mint: #83ead1;
+      --gold: #ffd17a;
+      --red: #ff928d;
+      --blue: #91bfff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 85% 0%, #1b3151 0, transparent 36rem),
+        var(--bg);
+      font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    a { color: var(--mint); }
+    a:hover { color: white; }
+    .wrap { width: min(1120px, calc(100% - 36px)); margin: auto; }
+    .top {
+      position: sticky; top: 0; z-index: 5;
+      background: #09101cf0; border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    nav { min-height: 64px; display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+    .brand { color: var(--text); font-weight: 850; letter-spacing: .09em; text-decoration: none; white-space: nowrap; }
+    .links { display: flex; gap: 16px; overflow-x: auto; }
+    .links a { color: var(--muted); text-decoration: none; white-space: nowrap; font-size: .84rem; }
+    .links a:hover { color: var(--mint); }
+    .hero { padding: 78px 0 60px; }
+    .hero-grid { display: grid; grid-template-columns: 1.5fr .8fr; gap: 28px; align-items: end; }
+    .eyebrow, .tag { color: var(--mint); font-size: .76rem; text-transform: uppercase; letter-spacing: .15em; font-weight: 800; }
+    h1 { margin: 12px 0; font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: .96; letter-spacing: -.06em; }
+    h1 span { color: var(--mint); }
+    h2 { margin: 0 0 16px; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; letter-spacing: -.035em; }
+    h3 { margin: 6px 0 9px; line-height: 1.25; }
+    p { margin: 0 0 13px; }
+    .lede { max-width: 720px; color: #c4d0e3; font-size: 1.12rem; }
+    .status, .card, .metric, .timeline-item, .log, .conclusion {
+      border: 1px solid var(--line); border-radius: 17px;
+      background: linear-gradient(145deg, var(--panel), #101827);
+    }
+    .status { padding: 20px; }
+    .status strong { display: block; color: var(--gold); font-size: 1.15rem; }
+    .muted, .intro, .status small { color: var(--muted); }
+    .status small { display: block; margin-top: 8px; }
+    .pills { margin-top: 17px; }
+    .pill { display: inline-block; margin: 3px 6px 0 0; padding: 5px 11px; border: 1px solid #3a516b; border-radius: 99px; color: #d3dfef; font-size: .82rem; }
+    main section { padding: 50px 0; border-top: 1px solid #1c2b40; }
+    .intro { max-width: 770px; margin-bottom: 22px; }
+    .grid { display: grid; gap: 15px; }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { padding: 20px; }
+    .card p:last-child { margin-bottom: 0; }
+    .callout { margin-top: 17px; padding: 15px 18px; border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; background: #272218; color: #f4ead6; }
+    .calculator { display: grid; grid-template-columns: .85fr 1.15fr; gap: 18px; align-items: start; }
+    .inputs { display: grid; gap: 10px; }
+    label { display: grid; grid-template-columns: 1fr 110px; gap: 10px; align-items: center; color: #d7e1f0; }
+    input { min-width: 0; width: 100%; padding: 8px 9px; color: var(--text); background: #09111e; border: 1px solid #3a4d67; border-radius: 8px; }
+    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .metric { padding: 15px; background: var(--panel2); }
+    .metric span { color: var(--muted); font-size: .82rem; }
+    .metric strong { display: block; font-size: 1.35rem; }
+    .good { color: var(--mint); } .warn { color: var(--gold); } .bad { color: var(--red); }
+    .result { margin-top: 12px; padding: 17px; border: 1px solid #34556a; border-radius: 14px; background: #10212a; }
+    .result p:last-child { margin-bottom: 0; }
+    .timeline { display: grid; gap: 12px; }
+    .timeline-item { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 18px; }
+    .time { color: var(--mint); font-weight: 850; }
+    ul { margin: 7px 0 0; padding-left: 20px; }
+    li { margin: 4px 0; }
+    .diagram { padding: 12px; background: #09111e; border: 1px solid var(--line); border-radius: 17px; overflow: hidden; }
+    .diagram svg { display: block; width: 100%; height: auto; }
+    .diagram-label { fill: #edf4ff; font: 700 14px system-ui, sans-serif; }
+    .diagram-note { fill: #becce0; font: 12px system-ui, sans-serif; }
+    .songs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .song { padding: 18px; background: var(--panel2); border: 1px solid var(--line); border-radius: 14px; }
+    .log { padding: 23px; color: #e8eef8; font: 1.07rem/1.7 Georgia, "Times New Roman", serif; }
+    .count { margin-top: 12px; color: var(--mint); font: 700 .85rem system-ui, sans-serif; }
+    .conclusion { padding: 21px; font-size: 1.05rem; }
+    footer { padding: 24px 0 38px; color: var(--muted); border-top: 1px solid var(--line); font-size: .88rem; }
+    .footer-row { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; }
+    button { cursor: pointer; padding: 9px 15px; border: 0; border-radius: 99px; color: #06140f; background: var(--mint); font-weight: 800; }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    @media (max-width: 800px) {
+      nav { align-items: flex-start; flex-direction: column; padding: 12px 0; }
+      .links { width: 100%; }
+      .hero-grid, .calculator { grid-template-columns: 1fr; }
+      .three { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .three, .two, .songs { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; gap: 4px; }
+      .hero { padding-top: 52px; }
+    }
+    @media print {
+      body { color: #111; background: #fff; font-size: 11pt; }
+      .top, button { display: none !important; }
+      main section { break-inside: avoid; padding: 25px 0; border-color: #aaa; }
+      .card, .status, .metric, .timeline-item, .diagram, .song, .log, .conclusion, .result {
+        color: #111; background: #fff; box-shadow: none; border-color: #999;
+      }
+      .muted, .intro, .diagram-note { color: #333; }
+      .diagram-label { fill: #111; }
+      a { color: #111; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <nav class="wrap" aria-label="Main navigation">
+      <a class="brand" href="#top">LUNAR OUTPOST ONE</a>
+      <div class="links">
+        <a href="#moon">Moon hazards</a>
+        <a href="#math">Calculations</a>
+        <a href="#plan">Survival plan</a>
+        <a href="#habitat">Habitat</a>
+        <a href="#log">Mission log</a>
+        <a href="#sources">Sources</a>
+      </div>
+    </nav>
+  </header>
+
+  <header class="hero wrap" id="top">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Emergency mission portfolio · 2042</div>
+        <h1>MISSION:<br><span>MOON SURVIVAL</span></h1>
+        <p class="lede">72 hours to keep four astronauts alive after a meteor impact destroys oxygen production, damages the solar array, and interrupts communication with Earth.</p>
+        <div class="pills">
+          <span class="pill">Crew: 4</span>
+          <span class="pill">Lunar south pole</span>
+          <span class="pill">Resupply window: 72 hours</span>
+        </div>
+      </div>
+      <aside class="status">
+        <div class="tag">Commander’s priority</div>
+        <strong>Keep the habitat sealed, powered, and occupied.</strong>
+        <small>Do not risk a five-kilometer trip to an unverified shelter while the station remains habitable.</small>
+      </aside>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="moon">
+      <div class="eyebrow">01 / Know your environment</div>
+      <h2>Plan for the Moon you actually have.</h2>
+      <p class="intro">Every environmental fact below connects to a specific survival decision.</p>
+      <div class="grid three">
+        <article class="card">
+          <div class="tag">Gravity</div>
+          <h3>About one-sixth of Earth’s</h3>
+          <p>The Moon’s surface gravity is about 1.62 m/s², roughly 0.165 of Earth’s. Suited crew may move awkwardly, bounce, lose balance, or disturb dust.</p>
+          <p class="muted"><b>Plan:</b> Avoid unnecessary surface work. For essential repairs, use handholds, slow movements, and a buddy system. Low gravity does not make a long hike easy.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Atmosphere &amp; pressure</div>
+          <h3>No breathable air outside</h3>
+          <p>The Moon’s extremely thin exosphere cannot provide breathable oxygen or Earth-like pressure. A habitat leak can cause rapid loss of pressure and breathable gas.</p>
+          <p class="muted"><b>Plan:</b> Isolate damaged sections and continuously monitor pressure, oxygen delivery, and carbon-dioxide removal.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Temperature</div>
+          <h3>Extreme heat and cold</h3>
+          <p>Near the lunar equator, surface temperatures can exceed 121°C (250°F) in daylight and fall to about −133°C (−208°F) at night. Permanently shadowed polar craters can be colder than −246°C (−410°F).</p>
+          <p class="muted"><b>Plan:</b> Preserve habitat insulation and thermal control; do not expose people or critical equipment to the surface extremes.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Radiation</div>
+          <h3>Little natural shielding</h3>
+          <p>The Moon has hardly any atmosphere and no global magnetic field to shield its surface from space radiation. Solar particle events can create increased exposure risk.</p>
+          <p class="muted"><b>Plan:</b> Move to the habitat’s most shielded interior area during an alert. Use available water and supplies as additional shielding around the shelter.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Lunar dust</div>
+          <h3>Jagged, abrasive, clingy</h3>
+          <p>Lunar regolith can cling to suits and coat equipment. Abrasive dust can foul seals and mechanisms, damage sensitive surfaces, and become a crew health concern.</p>
+          <p class="muted"><b>Plan:</b> Treat the airlock as a dust-control zone; keep suits and tools there and avoid opening the habitat.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Decision rule</div>
+          <h3>Stay while the base is safe</h3>
+          <p>The station has pressure, life support, stored resources, and an emergency shelter. The distant shelter’s condition, route, and supplies are unconfirmed.</p>
+          <p class="muted"><b>Plan:</b> Remain at the station while it is habitable. Consider evacuation only if measurements show it cannot sustain the crew.</p>
+        </article>
+      </div>
+      <div class="callout"><b>Life-support reminder:</b> Oxygen reserves alone cannot keep the crew alive. Cabin pressure, carbon-dioxide removal, thermal control, and system monitoring must also keep working.</div>
+    </section>
+
+    <section id="math">
+      <div class="eyebrow">02 / Survival calculations</div>
+      <h2>Three days. Four crew. Narrow margins.</h2>
+      <p class="intro"></p>
+      <div class="calculator">
+        <div class="card inputs">
+          <div class="tag">Editable inputs</div>
+          <label for="crew">Astronauts <input id="crew" type="number" min="1" value="4"></label>
+          <label for="days">Days until resupply <input id="days" type="number" min="1" value="3"></label>
+          <label for="o2stock">Oxygen available (kg) <input id="o2stock" type="number" min="0" step=".1" value="11"></label>
+          <label for="waterstock">Water available (L) <input id="waterstock" type="number" min="0" step=".1" value="45"></label>
+          <label for="battery">Battery energy (kWh) <input id="battery" type="number" min="0" step=".1" value="60"></label>
+          <label for="solar">Solar output (kW) <input id="solar" type="number" min="0" step=".1" value=".3"></label>
+          <label for="sunhours">Solar hours per day <input id="sunhours" type="number" min="0" step=".5" value="8"></label>
+          <label for="load">Baseline load (kW) <input id="load" type="number" min="0" step=".1" value="1"></label>
+        </div>
+
+        <div>
+          <div class="metrics">
+            <div class="metric"><span>Oxygen required</span><strong id="o2need">10.08 kg</strong></div>
+            <div class="metric"><span>Oxygen remaining</span><strong id="o2left">0.92 kg</strong></div>
+            <div class="metric"><span>Water remaining</span><strong id="waterleft">9 L</strong></div>
+            <div class="metric"><span>Energy balance</span><strong id="energy">−4.8 kWh</strong></div>
+          </div>
+          <div class="result">
+            <p><b>Oxygen:</b> 4 astronauts × 0.84 kg/person/day × 3 days = <b>10.08 kg</b>. From 11 kg, <b>0.92 kg remains</b>.</p>
+            <p><b>Water:</b> 4 × 3 L/person/day × 3 days = <b>36 L</b>. From 45 L, <b>9 L remains</b>.</p>
+            <p><b>Electricity:</b> 1.0 kW × 72 h = <b>72 kWh</b>. Backup solar: 0.3 kW × 8 h/day × 3 days = <b>7.2 kWh</b>. With the 60 kWh battery, total modeled supply is <b>67.2 kWh</b>, a <b>4.8 kWh deficit</b>.</p>
+            <p id="energyNote" class="muted">The backup panels provide their stated 8 hours of output on each of the three days. Reduce nonessential demand by at least 4.8 kWh, and preserve an additional reserve.</p>
+            <p class="muted"><b>Food:</b> The stated five-day supply nominally covers the 72-hour wait.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout"><b>Conservation:</b> Shut down nonessential lab instruments and lighting; defer experiments; reduce noncritical computing; schedule equipment use during solar-output hours. Keep oxygen delivery, CO₂ removal, pressure monitoring, thermal control, radiation alarms, and emergency communications powered. Do not conserve by withholding required oxygen, water, or medical care.</div>
+    </section>
+
+    <section id="plan">
+      <div class="eyebrow">03 / The 72-hour survival strategy</div>
+      <h2>Stabilize. Measure. Reassess.</h2>
+      <p class="intro">Use system readings and checklists. The scheduled resupply is an opportunity, not a guarantee.</p>
+      <div class="timeline">
+        <article class="timeline-item">
+          <div class="time">HOURS 0–6<br>Immediate response</div>
+          <div>
+            <h3>Protect the crew and stop further losses</h3>
+            <ul>
+              <li>Account for all four crew; assess injuries, pressure, oxygen, CO₂, temperature, fire, and electrical status.</li>
+              <li>Isolate the damaged oxygen-production area and any leaking or structurally compromised module.</li>
+              <li>Confirm stored oxygen delivery, CO₂ scrubber function, pressure controls, and alarms using independent readings if available.</li>
+              <li>Move to the radiation shelter if detector readings indicate a solar-particle threat; place water and other available supplies around the occupied area.</li>
+              <li>Shut down nonessential lab loads and begin a power budget.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="time">HOURS 6–24<br>Stabilize</div>
+          <div>
+            <h3>Conserve and attempt contact safely</h3>
+            <ul>
+              <li>Log oxygen, water, battery state, solar input, pressure, CO₂, and temperature at regular intervals.</li>
+              <li>Use backup solar only if panels, wiring, and connections are safe; measure actual energy delivered.</li>
+              <li>Check communications power, connections, antenna alignment, and routing. Reboot only according to procedure; test backup radio if available.</li>
+              <li>Send short repeated emergency messages with crew status, location, remaining supplies, and resupply window; record attempts.</li>
+              <li>Maintain rest and low-exertion routines without reducing required oxygen delivery.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="time">HOURS 24–48<br>Maintain</div>
+          <div>
+            <h3>Keep critical systems operating</h3>
+            <ul>
+              <li>Compare actual power use and solar generation with the budget; shed more noncritical loads if needed.</li>
+              <li>Monitor CO₂ removal, pressure, oxygen use, and temperature. Investigate abnormal readings promptly.</li>
+              <li>During radiation alerts, shelter inside and limit time near exposed walls.</li>
+              <li>Try communications checks from inside when possible.</li>
+              <li>Reassess whether the station remains safer than evacuation.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="time">HOURS 48–72<br>Prepare</div>
+          <div>
+            <h3>Prepare for rescue and delay</h3>
+            <ul>
+              <li>Keep signaling equipment ready and verify any available resupply or landing information.</li>
+              <li>Preserve an energy margin for life support and communications; charge when backup solar is available and safe.</li>
+              <li>Prepare the airlock and landing approach without unnecessary surface excursions.</li>
+              <li>Continue food, water, and medical checks; plan for a short extension if resupply is delayed.</li>
+              <li>If pressure or life support becomes unstable, follow the evacuation checklist and compare measured risks with the verified route and destination.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid two" style="margin-top:16px">
+        <article class="card">
+          <div class="tag">Situation 1 · Oxygen crisis</div>
+          <h3>Conserve without compromising safety</h3>
+          <p>Isolate leaks, use stored oxygen as designed, and track flow and reserve. Avoid unnecessary exertion and opening the habitat. Do not reduce oxygen below safe levels; pressure control and CO₂ removal are also essential.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Situation 2 · Power crisis</div>
+          <h3>Protect essential loads</h3>
+          <p>Prioritize life support, pressure and leak monitoring, thermal regulation, medical equipment, radiation alarms, and communications. Shed science payloads, nonessential lights, and convenience systems.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Situation 3 · Radiation threat</div>
+          <h3>Shelter inside</h3>
+          <p>Move the crew to the most shielded interior location, ideally with available water and supplies around it. Stay sheltered until monitoring indicates the threat has passed.</p>
+        </article>
+        <article class="card">
+          <div class="tag">Situation 4 · Communications</div>
+          <h3>Try communications in layers</h3>
+          <p>Check power, connectors, antenna alignment, and routing; test backup equipment or a preplanned relay if one exists. Send repeated concise emergency bursts and log every attempt.</p>
+        </article>
+      </div>
+      <div class="callout"><b>Situation 5 · The shelter five kilometers away:</b> Stay at the station while it remains pressurized and life support is stable. A five-kilometer trip needs reliable suits and life support for all four; low gravity, rough terrain, dust, radiation, and temperature extremes add risk. The distant shelter’s condition and supplies are unknown. Evacuate only if the station can no longer sustain the crew and the route and destination have been checked.</div>
+    </section>
+
+    <section id="habitat">
+      <div class="eyebrow">04 / Emergency habitat design</div>
+      <h2>A station organized around protection.</h2>
+      <p class="intro">Conceptual top-down diagram. The pressure shell, dust-control airlock, and interior shelter are design ideas—not a construction-ready engineering plan.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 900 500" role="img" aria-labelledby="diagram-title diagram-desc">
+          <title id="diagram-title">Lunar Outpost One emergency habitat plan</title>
+          <desc id="diagram-desc">Labeled plan showing living quarters, water and oxygen storage, life-support equipment, power, communications, radiation shelter, and an airlock protected by a regolith berm.</desc>
+          <defs>
+            <pattern id="regolith" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+              <rect width="4" height="10" fill="#806742"></rect>
+            </pattern>
+          </defs>
+          <rect x="48" y="39" width="804" height="420" rx="36" fill="url(#regolith)" opacity=".55"/>
+          <text x="55" y="27" class="diagram-note">Regolith berm: added impact and radiation shielding concept</text>
+          <rect x="90" y="76" width="720" height="344" rx="28" fill="#14243b" stroke="#91bfff" stroke-width="4"/>
+          <text x="110" y="101" class="diagram-note">Pressurized shell + thermal insulation</text>
+
+          <rect x="120" y="125" width="220" height="105" rx="14" fill="#203756" stroke="#83ead1" stroke-width="2"/>
+          <text x="140" y="164" class="diagram-label">Living quarters</text>
+          <text x="140" y="188" class="diagram-note">Rest · medical checks</text>
+
+          <rect x="365" y="125" width="190" height="105" rx="14" fill="#273349" stroke="#ffd17a" stroke-width="2"/>
+          <text x="382" y="158" class="diagram-label">Radiation shelter</text>
+          <text x="382" y="182" class="diagram-note">Interior core · supplies</text>
+          <text x="382" y="202" class="diagram-note">Water nearby as shielding</text>
+
+          <rect x="580" y="125" width="195" height="105" rx="14" fill="#203756" stroke="#91bfff" stroke-width="2"/>
+          <text x="597" y="157" class="diagram-label">Life support</text>
+          <text x="597" y="181" class="diagram-note">O₂ · CO₂ removal</text>
+          <text x="597" y="201" class="diagram-note">Pressure · thermal control</text>
+
+          <rect x="120" y="262" width="150" height="92" rx="13" fill="#1b3141" stroke="#83ead1" stroke-width="2"/>
+          <text x="138" y="297" class="diagram-label">Water storage</text>
+          <text x="138" y="321" class="diagram-note">Drinking · shielding</text>
+
+          <rect x="290" y="262" width="150" height="92" rx="13" fill="#1b3141" stroke="#83ead1" stroke-width="2"/>
+          <text x="306" y="297" class="diagram-label">O₂ storage</text>
+          <text x="306" y="321" class="diagram-note">Secured reserve</text>
+
+          <rect x="460" y="262" width="145" height="92" rx="13" fill="#1b3141" stroke="#91bfff" stroke-width="2"/>
+          <text x="477" y="297" class="diagram-label">Power bay</text>
+          <text x="477" y="321" class="diagram-note">Battery · controls</text>
+
+          <rect x="625" y="262" width="150" height="92" rx="13" fill="#1b3141" stroke="#91bfff" stroke-width="2"/>
+          <text x="643" y="297" class="diagram-label">Communications</text>
+          <text x="643" y="321" class="diagram-note">Radio · backup</text>
+
+          <rect x="814" y="202" width="38" height="104" rx="8" fill="#654c31" stroke="#ffd17a" stroke-width="2"/>
+          <text x="794" y="328" class="diagram-note">Airlock / entrance</text>
+          <text x="794" y="346" class="diagram-note">Suit &amp; dust control</text>
+          <path d="M810 253 H814" stroke="#ffd17a" stroke-width="4" stroke-dasharray="5 5"/>
+          <text x="570" y="395" class="diagram-note">Sealed entry · isolate dusty suits and tools</text>
+        </svg>
+      </div>
+      <div class="grid three" style="margin-top:15px">
+        <article class="card"><h3>Regolith protection</h3><p class="muted">A berm is a proposed extra barrier against impacts and radiation; the actual design requires engineering validation.</p></article>
+        <article class="card"><h3>Dust-control airlock</h3><p class="muted">Keep dust on suits and tools away from living areas, seals, filters, and sensitive equipment.</p></article>
+        <article class="card"><h3>Protected interior core</h3><p class="muted">Place the emergency shelter near water and supplies, while keeping life-support equipment accessible and monitored.</p></article>
+      </div>
+    </section>
+
+    <section id="music">
+      <div class="eyebrow">Interlude / The Moon in music</div>
+      <h2>Two songs, two lunar moods.</h2>
+      <p class="intro"></p>
+      <div class="songs">
+        <article class="song">
+          <h3>“Fly Me to the Moon” — Frank Sinatra</h3>
+          <p class="muted">A polished, swinging performance that treats the Moon as part of a grand romantic journey. The mood is elegant and expansive, and the imagined trip suggests excitement and escape.</p>
+        </article>
+        <article class="song">
+          <h3>“Moondance” — Van Morrison</h3>
+          <p class="muted">A relaxed, jazz-influenced song that uses moonlight as the setting for romance and dancing. Its mood feels warm and intimate rather than like a voyage through space.</p>
+        </article>
+      </div>
+      <div class="callout"><b>Compare and contrast:</b> Both songs connect the Moon with romance and use jazz-influenced sounds. “Fly Me to the Moon” emphasizes movement and a sweeping declaration; “Moondance” emphasizes atmosphere, rhythm, and a shared evening. One makes the Moon a destination; the other makes it a mood.</div>
+    </section>
+
+    <section id="log">
+      <div class="eyebrow">05 / Commander’s final transmission</div>
+      <h2>Hour 71 · Mission log</h2>
+      <div class="log">
+        <p>Mission Control, this is Lunar Outpost One. At 03:17 on the first day, a micrometeoroid strike destroyed our oxygen-production system and damaged the solar array. We isolated the affected section, confirmed cabin pressure, and switched to stored oxygen. My hardest decision was refusing the proposed five-kilometer trek to the backup shelter. Our route and suits were not verified for that journey, while this habitat still had working pressure control and carbon-dioxide removal. We stayed together and moved to the central compartment when the radiation detector warned of rising levels, placing water containers and supply packs around us.</p>
+        <p>The Moon has almost no atmosphere to breathe and no global magnetic field to shield its surface from space radiation. Temperatures vary sharply between sunlight and shadow, so we kept thermal control running and avoided an unnecessary spacewalk. We shut down laboratory equipment, tracked our water and power, and sent repeated emergency messages on the backup radio. The crew is tired and anxious, but alert and supporting one another. Our oxygen and energy margins are narrow. I believe all four of us can survive if resupply arrives and we keep life support our first priority.</p>
+        <div class="count" id="wordCount" aria-live="polite">Word count: calculating…</div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="eyebrow">06 / Scientific sources</div>
+      <h2>Research that shaped the plan.</h2>
+      <p class="intro">NASA research informed the temperature ranges, radiation response, and dust-control decisions in this portfolio.</p>
+      <ol>
+        <li>Barry, Caela. “<a href="https://science.nasa.gov/moon/weather-on-the-moon/" target="_blank" rel="noopener noreferrer">Weather on the Moon</a>.” <i>NASA Science</i>, 12 Feb. 2026. Used for lunar temperature ranges, the thin exosphere, and space-radiation hazards.</li>
+        <li>NASA. “<a href="https://science.nasa.gov/moon/facts/" target="_blank" rel="noopener noreferrer">Moon Facts</a>.” <i>NASA Science</i>. Used for basic lunar characteristics, including gravity.</li>
+        <li>NASA. “<a href="https://www.nasa.gov/reference/moonbase-environment/" target="_blank" rel="noopener noreferrer">The Lunar South Pole Region</a>.” <i>NASA</i>. Used for lunar dust hazards and the south-pole environment.</li>
+        <li>Steigerwald, William. “<a href="https://www.nasa.gov/solar-system/nasas-lro-finds-lunar-pits-harbor-comfortable-temperatures/" target="_blank" rel="noopener noreferrer">NASA’s LRO Finds Lunar Pits Harbor Comfortable Temperatures</a>.” <i>NASA</i>, 26 July 2022. Used as additional context on surface temperature extremes and lunar pits.</li>
+      </ol>
+      <p class="muted"></p>
+    </section>
+
+    <section id="conclusion">
+      <div class="eyebrow">Commander’s final question</div>
+      <h2>Why is the Moon harder to survive on than Earth’s harshest places?</h2>
+      <div class="conclusion">
+        Even Earth’s harshest environments still have a pressurized atmosphere and some protection from radiation; they also exist on a planet where help and supplies can eventually reach you. On the Moon, a small leak can become a life-threatening pressure loss, there is no air to breathe, and sunlight and shadow bring extreme temperature differences. Radiation and micrometeoroids reach the surface without Earth’s natural shielding, while sharp dust can damage equipment and threaten crew health. Distance makes rescue slower. Survival depends on a sealed habitat and several systems working together, not just human toughness. The crew must monitor resources, prepare for failures, and protect life support before anything else.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>Lunar Outpost One · Emergency Mission Portfolio · Scenario year 2042</span>
+      <button type="button" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+  </footer>
+
+  <script>
+    const inputIds = [
+      "crew", "days", "o2stock", "waterstock",
+      "battery", "solar", "sunhours", "load"
+    ];
+
+    function getNumber(id) {
+      const number = Number(document.getElementById(id).value);
+      return Number.isFinite(number) && number >= 0 ? number : 0;
+    }
+
+    function format(number) {
+      return number.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+
+    function updateCalculator() {
+      const crew = getNumber("crew");
+      const days = getNumber("days");
+
+      const oxygenNeeded = crew * 0.84 * days;
+      const oxygenLeft = getNumber("o2stock") - oxygenNeeded;
+      const waterLeft = getNumber("waterstock") - crew * 3 * days;
+      const solarEnergy = getNumber("solar") * getNumber("sunhours") * days;
+      const availableEnergy = getNumber("battery") + solarEnergy;
+      const neededEnergy = getNumber("load") * days * 24;
+      const balance = availableEnergy - neededEnergy;
+
+      document.getElementById("o2need").textContent = format(oxygenNeeded) + " kg";
+
+      const o2Element = document.getElementById("o2left");
+      o2Element.textContent = format(oxygenLeft) + " kg";
+      o2Element.className = oxygenLeft < 0 ? "bad" : oxygenLeft < 1 ? "warn" : "good";
+
+      const waterElement = document.getElementById("waterleft");
+      waterElement.textContent = format(waterLeft) + " L";
+      waterElement.className = waterLeft < 0 ? "bad" : waterLeft < 5 ? "warn" : "good";
+
+      const energyElement = document.getElementById("energy");
+      energyElement.textContent = (balance < 0 ? "−" : "+") + format(Math.abs(balance)) + " kWh";
+      energyElement.className = balance < 0 ? "bad" : "good";
+
+      const note = document.getElementById("energyNote");
+      if (balance < 0) {
+        note.textContent = "The panels provide the entered hours every day, reduce nonessential demand by at least " +
+          format(Math.abs(balance)) + " kWh over the mission, and preserve additional reserve.";
+      } else {
+        note.textContent = "The panels provide the entered hours every day, modeled supply exceeds the entered load by " +
+          format(balance) + " kWh. Keep additional reserve for unexpected demands.";
+      }
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id).addEventListener("input", updateCalculator);
+    });
+    updateCalculator();
+
+    const log = document.querySelector(".log");
+    const logText = Array.from(log.querySelectorAll("p"))
+      .map(paragraph => paragraph.textContent)
+      .join(" ");
+    const wordCount = logText.trim().split(/\s+/).length;
+    document.getElementById("wordCount").textContent =
+      "Word count: " + wordCount + " (including the opening address)";
+  </script>
+</body>
+</html>
